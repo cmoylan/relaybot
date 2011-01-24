@@ -2,23 +2,30 @@
 
 require 'socket'
 
-class NightRanger
-  def initialize(server, port, channel)
+class Bot
+  def initialize(server, port, nick, channel)
     @channel = channel
     @socket = TCPSocket.open(server, port)
-    say "NICK djmoymoy"
-    say "USER djmoymoy 0 * djmoymoy"
-    say "JOIN ##{@channel}"
-    say_to_chan "#{1.chr}ACTION is here to help#{1.chr}"
+    cmd "NICK #{nick}"
+    cmd "USER #{nick} 0 * Your friendly neighborhood bot"
+    cmd "JOIN ##{@channel}"
+    say "#{1.chr}ACTION is here to serve#{1.chr}"
   end
 
-  def say(msg)
+  def cmd(msg)
     puts msg
     @socket.puts msg
   end
 
-  def say_to_chan(msg)
-    say "PRIVMSG ##{@channel} :#{msg}"
+  def say(msg)
+    cmd "PRIVMSG ##{@channel} :#{msg}"
+  end
+
+  def priv_msg(nick, msg)
+    cmd "PRIVMSG #{nick} :#{msg}"
+  end
+
+  def listen(msg)
   end
 
   def run
@@ -27,24 +34,20 @@ class NightRanger
       puts msg
 
       if msg.match(/^PING :(.*)$/)
-        say "PONG #{$~[1]}"
+        cmd "PONG #{$~[1]}"
         next
       end
 
       if msg.match(/PRIVMSG ##{@channel} :(.*)$/)
         content = $~[1]
-
-        #put matchers here
-        if content.match(/did.it.work/)
-          say_to_chan('it worked')
-        end
+        listen(content)
       end
     end
   end
 
-  def quit
-    say "PART ##{@channel} :Out of here"
-    say 'QUIT'
+  def quit(msg = 'Out of here')
+    cmd "PART ##{@channel} :#{msg}"
+    cmd 'QUIT'
   end
 end
 
