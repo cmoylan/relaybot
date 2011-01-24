@@ -2,7 +2,7 @@
 
 require 'bot.rb'
 
-class NightRanger < Bot
+class RelayBot < Bot
   def listen(msg)
     if msg.match(/did.it.work/)
       say('yes it did')
