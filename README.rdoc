@@ -1,0 +1,1 @@
+RelayBot is a simple bot that notifies me of IRC messages via SMS
