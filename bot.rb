@@ -12,8 +12,7 @@ class Bot
     if password
       identify(password)
     end
-    cmd "JOIN ##{@channel}"
-    say "#{1.chr}ACTION is here to serve#{1.chr}"
+    join @channel
   end
 
   def cmd(msg)
@@ -31,6 +30,11 @@ class Bot
 
   def priv_msg(nick, msg)
     cmd "PRIVMSG #{nick} :#{msg}"
+  end
+
+  def join(channel)
+    cmd "JOIN ##{channel}"
+    say "#{1.chr}ACTION is here to serve#{1.chr}"
   end
 
   def listen(msg)
