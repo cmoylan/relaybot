@@ -3,9 +3,10 @@
 require 'socket'
 
 class Bot
-  def initialize(server, port, channel, nick, password)
+  def initialize(server, port, channel, nick, password = nil)
     @channel = channel
     @socket = TCPSocket.open(server, port)
+    @nick = nick
     cmd "NICK #{nick}"
     cmd "USER #{nick} 0 * Your friendly neighborhood bot"
     if password
