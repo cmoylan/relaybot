@@ -10,7 +10,7 @@ class SmsNotifier
     @voicebox = GoogleVoice::Api.new(account, password)
   end
 
-  def sendSMS( msg)
+  def sendSms( msg)
     @voicebox.sms(@number, msg)
   end
 end
