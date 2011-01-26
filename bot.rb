@@ -53,6 +53,12 @@ class Bot
       if msg.match(/PRIVMSG ##{@channel} :(.*)$/)
         content = $~[1]
         listen(content)
+
+        # secret killswitch
+        if msg.match(/\!quatshakes/)
+          quit
+        end
+
       end
     end
   end
