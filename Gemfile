@@ -1,4 +1,4 @@
 # A sample Gemfile
 source "http://rubygems.org"
 
-# gem "rails"
+gem "googlevoiceapi", ">= 0.1.4"
