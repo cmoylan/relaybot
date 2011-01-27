@@ -14,13 +14,13 @@ class RelayBot < Bot
     @notifier = SmsNotifier.new(args[:gaccount], args[:gpassword], args[:number])
   end
 
-  def listen(msg)
+  def listen(sender, msg)
     # If I am pinged (pung?), forward the message via sms
-    #nick_match = /^#{@nick}(:)?/
     if msg.match(/^#{@nick}(:)?/)
-      # TODO truncate the msg to 140 chars for sms limit
-      puts truncate(msg.gsub(nick_match, ''), 135, '...')
-      @notifier.sendSms(msg)
+      # Truncate the msg to SMS limit, including sender
+      msg = msg.slice(0..140 - sender.length)
+      puts "SMSing: #{sender}: #{msg}"
+      @notifier.sendSms "#{sender}: #{msg}"
     end
 
   end

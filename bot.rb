@@ -52,7 +52,15 @@ class Bot
 
       if msg.match(/PRIVMSG ##{@channel} :(.*)$/)
         content = $~[1]
-        listen(content)
+
+        sender = msg.match(/:(.*)\!\~#{@nick}@/)
+        if sender
+          sender = sender[1]
+        else
+          sender = 'unknown'
+        end
+
+        listen sender content
 
         # secret killswitch
         if msg.match(/\!quatshakes/)
