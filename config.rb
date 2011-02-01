@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # TODO fill this in
-$config = {
+$CONFIG = {
   :server => '',
   :port => 0,
   :channel => '',
