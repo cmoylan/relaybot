@@ -2,31 +2,58 @@
 
 
 $LOAD_PATH << File.dirname(__FILE__) + '/../lib'
-require File.dirname(__FILE__) + '/../config2.rb'
+require File.dirname(__FILE__) + '/../config.rb'
 require 'relaybot.rb'
 
-# TODO: get command line arguments
+PID_FILE = File.dirname(__FILE__) + '/../tmp/pid.txt'
 
-pid = Process.fork do
-  the_bot = RelayBot.new $CONFIG
-  trap("QUIT") {the_bot.quit; exit}
+def start
+  if File.exist?(PID_FILE)
+    puts 'A bot is already running!'
+    exit
+  end
+
+  pid = Process.fork do
+    the_bot = RelayBot.new $CONFIG
+    the_bot.run
+    trap("QUIT") {the_bot.quit; exit}
+  end
+
+  file_handle = File.new(PID_FILE, "w")
+  file_handle.write(pid.to_s)
+  file_handle.close
+
+  Process.detach(pid)
 end
 
-Process.detach(pid)
-# TODO: store the pid somewhere.
-#
-#
-#
-#PID_FILE = File.dirname(__FILE__) + '/../tmp/pid.txt'
+def stop
+  unless File.exist?(PID_FILE)
+    puts 'No PID file found. Are you sure a bot is running?'
+    exit
+  end
 
-#if File.exist?(PID_FILE)
-  #puts "A bot is currently running. Shutting down..."
+  file_handle = File.new(PID_FILE, "r")
+  pid = file_handle.readline.to_i
 
-  #pid_file = File.new(PID_FILE, "r")
-  #pid = pid_file.readline.to_i
+  Process.kill("QUIT", pid)
+  file_handle.close
 
-  #Process.kill("QUIT", pid)
-  #pid_file.close
+  File.delete(PID_FILE)
+end
 
-  #File.delete(PID_FILE)
-#end
+#######################################################################
+
+ARGV.each do |arg|
+  case arg
+    when '--help'
+      puts 'usage goes here'
+      exit
+    when 'start'
+      puts 'Starting relaybot...'
+      start
+    when 'stop'
+      puts 'Shutting down bot...'
+      stop
+  end
+end
+
