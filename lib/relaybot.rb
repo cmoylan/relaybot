@@ -3,6 +3,10 @@
 require 'bot.rb'
 require 'sms_notifier.rb'
 
+# TODO: wrap some shit in begin/resue blocks so that when it breaks the whole
+# process doesn't go to hell
+# TODO: SMS notifier is blowing up. Probably because it's being called from within
+# a folder. Fix it.
 class RelayBot < Bot
   def initialize(opts={})
   #def initialize(server, port, channel, nick, password=nil, gaccount, gpassword, number)

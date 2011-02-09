@@ -60,7 +60,7 @@ class Bot
           sender = 'unknown'
         end
 
-        listen sender content
+        listen(sender, content)
 
         # secret killswitch
         if msg.match(/\!quatshakes/)
