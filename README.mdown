@@ -1,0 +1,16 @@
+# RelayBot
+
+## About
+RelayBot is a simple IRC bot that can send SMS notifications when someone pings you.
+
+## Usage
+First fill in configuration details in config.rb.
+
+To start the bot:
+`bin/relaybot start`
+
+To stop the bot:
+`bin/relaybot stop`
+
+## Misc
+Version: 1.0
