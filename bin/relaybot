@@ -2,7 +2,7 @@
 
 
 $LOAD_PATH << File.dirname(__FILE__) + '/../lib'
-require File.dirname(__FILE__) + '/../config2.rb'
+require File.dirname(__FILE__) + '/../config.rb'
 require 'relaybot.rb'
 
 PID_FILE = File.dirname(__FILE__) + '/../tmp/pid.txt'
